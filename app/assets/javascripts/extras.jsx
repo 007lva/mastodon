@@ -1,40 +1,47 @@
 import emojify from './components/emoji'
 
-$(() => {
-  $.each($('.emojify'), (_, content) => {
-    const $content = $(content);
-    $content.html(emojify($content.html()));
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.emojify').forEach((content) => {
+    content.innerHTML = emojify(content.innerHTML);
   });
 
-  $('.video-player video').on('click', e => {
-    if (e.target.paused) {
-      e.target.play();
-    } else {
-      e.target.pause();
-    }
+  document.querySelectorAll('.video-player video').forEach((elem) => {
+    elem.click = e => {
+      if (e.target.paused) {
+        e.target.play();
+      } else {
+        e.target.pause();
+      }
+    };
   });
 
-  $('.media-spoiler').on('click', e => {
-    $(e.target).hide();
+  document.querySelectorAll('.media-spoiler').forEach((elem) => {
+    elem.click = e => {
+      e.target.style.display = 'none';
+    };
   });
 
-  $('.webapp-btn').on('click', e => {
+  document.querySelector('.webapp-btn').click = e => {
     if (e.button === 0) {
       e.preventDefault();
-      window.location.href = $(e.target).attr('href');
+      window.location.href = e.target.getAttribute('href');
     }
-  });
+  };
 
-  $('.status__content__spoiler-link').on('click', e => {
-    e.preventDefault();
-    const contentEl = $(e.target).parent().parent().find('div');
+  document.querySelectorAll('.status__content__spoiler-link').forEach((elem) => {
+    elem.click = e => {
+      e.preventDefault();
+      const contentEl = e.target.parentNode().parentNode().querySelectorAll('div');
 
-    if (contentEl.is(':visible')) {
-      contentEl.hide();
-      $(e.target).parent().attr('style', 'margin-bottom: 0');
-    } else {
-      contentEl.show();
-      $(e.target).parent().attr('style', null);
-    }
+      contentEl.forEach((div) => {
+        if (div.display.style !== 'none') {
+          div.display.style = 'none';
+          e.target.parentNode().setAttribute('style', 'margin-bottom: 0')
+        } else {
+          div.display.style = 'block';
+          e.target.parentNode().setAttribute('style', null);
+        }
+      });
+    };
   });
 });
